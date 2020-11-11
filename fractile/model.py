@@ -1,7 +1,6 @@
 from enum import Enum
 
-
-TILE_SIZE = 256
+TILE_SIZE = 512
 
 
 class FractalType(str, Enum):

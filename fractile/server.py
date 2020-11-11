@@ -4,8 +4,8 @@ from fastapi import FastAPI
 from starlette.responses import StreamingResponse, RedirectResponse
 from starlette.staticfiles import StaticFiles
 
-from fractile.generate import get_fractal_tile
 from fractile.model import FractalType
+from fractile.tile import get_fractal_tile
 
 app = FastAPI()
 

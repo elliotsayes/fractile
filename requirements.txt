@@ -3,5 +3,5 @@ gunicorn
 fastapi~=0.61.2
 starlette~=0.13.6
 aiofiles~=0.6.0
-numpy~=1.19.4
 Pillow~=8.0.1
+cupy~=8.1.0

@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.1-base
+FROM nvidia/cuda:11.1-devel
 
 LABEL maintainer="Elliot Sayes <elliot@sayes.cloud>"
 
