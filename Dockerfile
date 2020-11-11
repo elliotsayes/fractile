@@ -1,4 +1,5 @@
-FROM fastgpu:latest
+ARG PROJECT_ID
+FROM gcr.io/$PROJECT_ID/cuda-fastapi-cupy-docker:11.1-devel
 
 COPY requirements-docker.txt requirements.txt
 
