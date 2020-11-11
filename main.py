@@ -1,1 +1,1 @@
-from fractile.fractile import app
+from fractile.server import app
