@@ -5,7 +5,7 @@ import cupy as np
 from fractile.kernel import kernel_map
 from fractile.model import TILE_SIZE, FractalType
 
-SCALE = 3
+SCALE = 4
 
 
 def get_fractal_coords(tile_x: int, tile_y: int, tile_z: int) -> np.ndarray:
@@ -15,7 +15,7 @@ def get_fractal_coords(tile_x: int, tile_y: int, tile_z: int) -> np.ndarray:
     map_size = math.pow(2, tile_z) * TILE_SIZE
 
     real_start, real_stop = map(
-        lambda x: SCALE * ((x + 0.5) / map_size - 0.5) - 0.5,
+        lambda x: SCALE * ((x + 0.5) / map_size - 0.5),
         [x_offset, x_offset + TILE_SIZE])
     imag_start, imag_stop = map(
         lambda y: SCALE * (0.5 - (y + 0.5) / map_size),
@@ -40,7 +40,7 @@ def colour_iterations(i: np.ndarray) -> np.ndarray:
 
     img = np.empty((TILE_SIZE, TILE_SIZE, 3), dtype=np.uint8)
     img[:, :, 0] = (li * 255) % 255
-    img[:, :, 1] = 128
+    img[:, :, 1] = 192
     img[:, :, 2] = 128 + 13 * np.sin(li * 100) - np.minimum(115, (10000 * 13 / (10000 - i)))
 
     return img
