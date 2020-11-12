@@ -2,10 +2,21 @@ from fastapi import FastAPI
 from starlette.responses import StreamingResponse, RedirectResponse
 from starlette.staticfiles import StaticFiles
 
+from fractile import cache
 from fractile.model import FractalType
 from fractile.tile import get_fractal_tile
 
 app = FastAPI()
+
+
+@app.on_event("startup")
+def startup():
+    cache.startup()
+
+
+@app.on_event("shutdown")
+def shutdown():
+    cache.shutdown()
 
 
 @app.get("/api/tiles/{fractal_type}/{zoom}/{x}/{y}/tile.png")
