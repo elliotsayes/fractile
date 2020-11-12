@@ -3,7 +3,7 @@ import io
 import cupy as cp
 from PIL import Image
 
-from fractile.cache import lookup_tile, save_tile
+from fractile.cache import lookup_tile
 from fractile.generate import get_fractal_iterations, colour_iterations
 from fractile.model import FractalType
 
@@ -22,7 +22,5 @@ def get_fractal_tile(x: int, y: int, z: int, fractal_type: FractalType) -> Image
         img_buffer = io.BytesIO()
         img_rgb.save(img_buffer, format='PNG')
         img_buffer.seek(0)
-
-        save_tile(img_buffer, x, y, z, fractal_type)
 
     return img_buffer

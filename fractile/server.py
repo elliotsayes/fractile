@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from starlette.background import BackgroundTask
 from starlette.responses import StreamingResponse, RedirectResponse
 from starlette.staticfiles import StaticFiles
 
 from fractile import cache
+from fractile.cache import save_tile
 from fractile.model import FractalType
 from fractile.tile import get_fractal_tile
 
@@ -25,10 +27,13 @@ async def tiles(fractal_type: FractalType, zoom: int, x: int, y: int):
         return
 
     img_buffer = get_fractal_tile(x, y, zoom, fractal_type)
+    cache_task = BackgroundTask(save_tile, img_buffer, x, y, zoom, fractal_type)
 
-    return StreamingResponse(img_buffer,
-                             media_type="image/png",
-                             headers={'Content-Disposition': 'inline; filename="tile.png"'})
+    return StreamingResponse(
+        img_buffer,
+        media_type="image/png",
+        headers={'Content-Disposition': 'inline; filename="tile.png"'},
+        background=cache_task)
 
 
 @app.get("/", include_in_schema=False)
