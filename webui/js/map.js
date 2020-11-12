@@ -9,6 +9,15 @@ function initMap() {
         mapTypeControlOptions: {
             mapTypeIds: ["mandelbrot", "julia"],
         },
+        restriction: {
+            latLngBounds: {
+                east: 179.9999,
+                north: 85,
+                south: -85,
+                west: -179.9999
+            },
+            strictBounds: true
+        }
     });
 
     const mandelbrotMapType = new google.maps.ImageMapType({
