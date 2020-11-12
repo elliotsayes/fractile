@@ -3,8 +3,9 @@ import math
 import cupy as np
 
 from fractile.kernel import kernel_map
-from fractile.model import TILE_SIZE, FractalType
+from fractile.model import FractalType
 
+TILE_SIZE = 512
 SCALE = 4
 
 
