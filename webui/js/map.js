@@ -92,7 +92,7 @@ function getComplexCoordinateStr(coord) {
 
     const scale = 4;
     let real = scale * (lng / 180);
-    let imag = scale * (Math.log(Math.tan(Math.PI/4 + lat * (Math.PI / 180) / 2)) / Math.PI);
+    let imag = scale * (Math.log(Math.tan(Math.PI / 4 + lat * (Math.PI / 180) / 2)) / Math.PI);
 
     let separator = imag < 0 ? " - " : " + ";
 
