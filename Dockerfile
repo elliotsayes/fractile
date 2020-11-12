@@ -10,3 +10,7 @@ WORKDIR /app
 COPY fractile fractile
 COPY webui webui
 COPY main.py main.py
+
+ENV REDIS_ENABLED=0
+ENV REDIS_HOST=redis
+ENV REDIS_PORT=6379
