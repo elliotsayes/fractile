@@ -1,3 +1,6 @@
 .git
-venv
 .idea
+venv
+.gitignore
+cloudbuild.yaml
+local.sh
