@@ -2,29 +2,33 @@ from io import BytesIO
 from typing import Optional
 
 import redis
-import os
+from pydantic import BaseSettings
 
 from fractile.model import FractalType
 
-REDIS_ENABLED = os.environ.get("REDIS_ENABLED")
-REDIS_HOST = os.environ.get("REDIS_HOST")
-REDIS_PORT = os.environ.get("REDIS_PORT")
-REDIS_EXPIRY = 3600
 
+class RedisSettings(BaseSettings):
+    REDIS_ENABLED: bool = False
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_EXPIRY: int = 3600
+
+
+redis_settings = RedisSettings()
 con: redis.client.Redis = None
 
 
 def startup():
-    global con
-    if not REDIS_ENABLED:
+    global con, redis_settings
+    if not redis_settings.REDIS_ENABLED:
         return False
-    con = redis.Redis(host=REDIS_HOST, port=REDIS_PORT)
+    con = redis.Redis(host=redis_settings.REDIS_HOST, port=redis_settings.REDIS_PORT)
     return True
 
 
 def shutdown():
-    global con
-    if not REDIS_ENABLED:
+    global con, redis_settings
+    if not redis_settings.REDIS_ENABLED:
         return False
     con.close()
     return True
@@ -39,26 +43,25 @@ def tile_key(x: int, y: int, z: int, fractal_type: FractalType):
 
 
 def lookup_tile(x: int, y: int, z: int, fractal_type: FractalType) -> Optional[BytesIO]:
-    global con
+    global con, redis_settings
     if not con:
         return None
     key = tile_key(x, y, z, fractal_type)
     data = con.get(key)
     if not data:
         return None
-    con.expire(key, REDIS_EXPIRY)
+    con.expire(key, redis_settings.REDIS_EXPIRY)
     con.close()
     return BytesIO(data)
 
 
 def save_tile(buffer: BytesIO, x: int, y: int, z: int, fractal_type: FractalType) -> bool:
-    global con
+    global con, redis_settings
     if not con:
         return False
-    r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT)
     key = tile_key(x, y, z, fractal_type)
-    if r.exists(key):
+    if con.exists(key):
         return False
-    r.set(key, buffer.getvalue())
-    r.expire(key, REDIS_EXPIRY)
+    con.set(key, buffer.getvalue())
+    con.expire(key, redis_settings.REDIS_EXPIRY)
     return True
