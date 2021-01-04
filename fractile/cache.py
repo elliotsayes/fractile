@@ -19,11 +19,15 @@ def startup():
     if not REDIS_ENABLED:
         return False
     con = redis.Redis(host=REDIS_HOST, port=REDIS_PORT)
+    return True
 
 
 def shutdown():
     global con
+    if not REDIS_ENABLED:
+        return False
     con.close()
+    return True
 
 
 def stringify_args(*args):
