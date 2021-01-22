@@ -1,5 +1,8 @@
-ARG PROJECT_ID
-FROM gcr.io/$PROJECT_ID/cuda-fastapi-cupy-docker:11.1-devel
+ARG DOMAIN=docker.io
+ARG CONTAINER_REPO=elliotsayes
+ARG CONTAINER_SUFFIX
+ARG TAG=latest
+FROM $DOMAIN/$CONTAINER_REPO/cuda-fastapi-cupy$CONTAINER_SUFFIX:$TAG
 
 COPY requirements-docker.txt requirements.txt
 

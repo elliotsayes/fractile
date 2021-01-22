@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--build-arg=PROJECT_ID=$PROJECT_ID', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA', '.']
+  args: ['build', '--build-arg=DOMAIN=gcr.io', '--build-arg=CONTAINER_REPO=$PROJECT_ID', '--build-arg=CONTAINER_SUFFIX=-docker', '--build-arg=TAG=11.1-devel', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
 - name: 'gcr.io/cloud-builders/docker'
